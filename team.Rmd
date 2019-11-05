@@ -9,22 +9,86 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+1. 
+``` {r}
+diabetes<-read.table('diabetes.txt',header=TRUE)
+head(diabetes)
+```
+2.
+``` {r}
+library(dplyr)
+index.na=apply(is.na(diabetes), 1, any)
+index.na
+head(diabetes)
+str(diabetes)
+```
+3.
+``` {r}
+diabetes_reduced <- select(diabetes, -c(id, bp.2s, bp.2d))
+```
+4.
+```{r}
+index.na1=apply(is.na(diabetes_reduced), 1, any)
+index.na1
+diabetes_clean <- diabetes_reduced[complete.cases(diabetes_reduced),]
 ```
 
-## Including Plots
+5.
+``` {r}
+index.na2=apply(is.na(diabetes_clean), 1, any)
+index.na2
+```
+To see if all rows that have missing values were dropped we just have to run the given line of code again. If there are no results then there are no missing values. 
 
-You can also embed plots, for example:
+6.
+To remove skewness we can remove outliers and only display the range of values that most of the vaules fall between.
+(maybe use a z score to normalize?)
+https://medium.com/@TheDataGyan/day-8-data-transformation-skewness-normalization-and-much-more-4c144d370e55
+``` {r}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+7.
+``` {r}
+
+```
+
+8.
+``` {r}
+
+```
+
+9.
+``` {r}
+
+```
+
+10.
+``` {r}
+
+```
+
+11.
+``` {r}
+
+```
+
+12.
+``` {r}
+
+```
+
+13.
+``` {r}
+
+```
+
+14.
+``` {r}
+
+```
+
+15.
+``` {r}
+
+```
