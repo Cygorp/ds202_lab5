@@ -16,7 +16,7 @@ head(diabetes)
 ```
 2.
 ``` {r}
-library(dplyr)
+library(tidyverse)
 index.na=apply(is.na(diabetes), 1, any)
 index.na
 head(diabetes)
@@ -41,21 +41,22 @@ index.na2
 To see if all rows that have missing values were dropped we just have to run the given line of code again. If there are no results then there are no missing values. 
 
 6.
-To remove skewness we can remove outliers and only display the range of values that most of the vaules fall between.
-(maybe use a z score to normalize?)
-https://medium.com/@TheDataGyan/day-8-data-transformation-skewness-normalization-and-much-more-4c144d370e55
+Taking the log value of glyhb would make the data less right-skewed and more symmetric.
 ``` {r}
 
 ```
 
 7.
 ``` {r}
+ggplot(diabetes_clean, aes(glyhb)) + geom_histogram()
+diabetes_clean$glyhb_star = log(diabetes_clean$glyhb)
+ggplot(diabetes_clean, aes(glyhb_star)) + geom_histogram()
 
 ```
 
 8.
 ``` {r}
-
+diabetes_clean %>% group_by(frame) %>% summarise(mean.glyhb = mean(glyhb_star))
 ```
 
 9.
