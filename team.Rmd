@@ -42,9 +42,6 @@ To see if all rows that have missing values were dropped we just have to run the
 
 6.
 Taking the log value of glyhb would make the data less right-skewed and more symmetric.
-``` {r}
-
-```
 
 7.
 ``` {r}
@@ -57,11 +54,6 @@ ggplot(diabetes_clean, aes(glyhb_star)) + geom_histogram()
 8.
 ``` {r}
 diabetes_clean %>% group_by(frame) %>% summarise(mean.glyhb = mean(glyhb_star))
-```
-
-9.
-``` {r}
-
 ```
 
 10.
@@ -102,6 +94,16 @@ The coefficients for stab.glu, age, and waist are all similar and relatively low
 new_diabetes = data.frame(wt=c(90, 35, 30, 5.1, 'small'))
 ```
 
+18.
+Inference is when you are looking to infer the effect of how an output is generated as a function of the data. Whereas prediction is when you are trying to choose a correct identifier from a set of outcomes. Inference is looking at the effect of x on y and prediction wants to see how often x is right.
+
+19.
+A linear regression model is better than a knn regression model when trying to fit and estimate a small number of coefficients.A disadvantage of a linear regression compared to knn is that linear regressions make strong assumptions about the form of f(x). This means if the relationship isn't linear the resulting model can be misleading/ wont fit well. A knn regression model doesn't assume an explicit form of f(x).
+
+20.
+I believe that I had a solid grasp of what data science is from taking 201 before this class so my views on data science haven't changed, but I do believe that my knowledge on and skills on the subject have grown. 
+
+The most suprising part about DS to us was how many diferrent ways there are to view and manipulate data. There isn't always a "right" answer how to do things and methods vary from person to person.The most challenging part and the most enjoyable part of this course had to deal with collaborating on lab assingments and the group project. Working with others made the class more enjoyable but learning git and github to collaborate was challenging but rewarding. 
 
 
 
