@@ -40,8 +40,13 @@ index.na2
 ```
 To see if all rows that have missing values were dropped we just have to run the given line of code again. If there are no results then there are no missing values. 
 
+<<<<<<< HEAD
 ## 6.
 Taking the log value of glyhb would make the data less right-skewed and more symmetric. A potential downside is information about the drastic differences between some peoples glyhb values.
+=======
+6.
+Taking the log value of glyhb would make the data less right-skewed and more symmetric.
+>>>>>>> 4e799ad6f94ed44dc5f7fcfd5601e3b41f0475bc
 
 ## 7.
 ``` {r}
@@ -59,9 +64,13 @@ diabetes_clean %>% group_by(location) %>% summarise(mean.glyhb = mean(glyhb_star
 diabetes_clean %>% group_by(gender) %>% summarise(mean.glyhb = mean(glyhb_star))
 ```
 
+<<<<<<< HEAD
 
 
 ## 10.
+=======
+10.
+>>>>>>> 4e799ad6f94ed44dc5f7fcfd5601e3b41f0475bc
 ``` {r}
  diabetes_clean %>% group_by(frame,location) %>% summarise (mean.glyhb_star= mean(glyhb_star)) %>% ggplot(aes(x = frame, y = mean.glyhb_star, color = location)) + geom_point() + ggtitle("Average glyhb_star by Frame")
 ```
@@ -103,6 +112,16 @@ names(new_diabetes) = c("stab.glu", "age", "waist", "ratio", "frame")
 predict(fit, new_diabetes)
 ```
 
+18.
+Inference is when you are looking to infer the effect of how an output is generated as a function of the data. Whereas prediction is when you are trying to choose a correct identifier from a set of outcomes. Inference is looking at the effect of x on y and prediction wants to see how often x is right.
+
+19.
+A linear regression model is better than a knn regression model when trying to fit and estimate a small number of coefficients.A disadvantage of a linear regression compared to knn is that linear regressions make strong assumptions about the form of f(x). This means if the relationship isn't linear the resulting model can be misleading/ wont fit well. A knn regression model doesn't assume an explicit form of f(x).
+
+20.
+I believe that I had a solid grasp of what data science is from taking 201 before this class so my views on data science haven't changed, but I do believe that my knowledge on and skills on the subject have grown. 
+
+The most suprising part about DS to us was how many diferrent ways there are to view and manipulate data. There isn't always a "right" answer how to do things and methods vary from person to person.The most challenging part and the most enjoyable part of this course had to deal with collaborating on lab assingments and the group project. Working with others made the class more enjoyable but learning git and github to collaborate was challenging but rewarding. 
 
 
 
