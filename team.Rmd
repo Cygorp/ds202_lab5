@@ -8,7 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Github Repository: https://github.com/Cygorp/ds202_lab5
+Github Repository: https://github.com/Cygorp/ds202_lab5 <br>
+Owners Username: Cygorp <br>
+Partners Username: mitchellkazin15
 
 ## 1. 
 ``` {r}
