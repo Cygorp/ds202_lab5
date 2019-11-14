@@ -1,6 +1,6 @@
 ---
 title: "lab5"
-author: "Adam VanGorp"
+author: "Adam VanGorp and Mitchell Kazin"
 date: "11/4/2019"
 output: html_document
 ---
@@ -9,44 +9,41 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-1. 
+## 1. 
 ``` {r}
 diabetes<-read.table('diabetes.txt',header=TRUE)
 head(diabetes)
 ```
-2.
+## 2.
 ``` {r}
 library(tidyverse)
-index.na=apply(is.na(diabetes), 1, any)
-index.na
+diabetes[diabetes == ''] = NA
+droplevels(diabetes)
 head(diabetes)
 str(diabetes)
 ```
-3.
+## 3.
 ``` {r}
 diabetes_reduced <- select(diabetes, -c(id, bp.2s, bp.2d))
 ```
-4.
+## 4.
 ```{r}
-index.na1=apply(is.na(diabetes_reduced), 1, any)
-index.na1
-diabetes_clean <- diabetes_reduced[complete.cases(diabetes_reduced),]
+index.na1=which(apply(is.na(diabetes_reduced), 1, any) == TRUE)
+diabetes_clean <- diabetes_reduced[-index.na1,]
+nrow(diabetes_clean)
 ```
 
-5.
+## 5.
 ``` {r}
-index.na2=apply(is.na(diabetes_clean), 1, any)
+index.na2=which(apply(is.na(diabetes_clean), 1, any) == TRUE)
 index.na2
 ```
 To see if all rows that have missing values were dropped we just have to run the given line of code again. If there are no results then there are no missing values. 
 
-6.
-Taking the log value of glyhb would make the data less right-skewed and more symmetric.
-``` {r}
+## 6.
+Taking the log value of glyhb would make the data less right-skewed and more symmetric. A potential downside is information about the drastic differences between some peoples glyhb values.
 
-```
-
-7.
+## 7.
 ``` {r}
 ggplot(diabetes_clean, aes(glyhb)) + geom_histogram()
 diabetes_clean$glyhb_star = log(diabetes_clean$glyhb)
@@ -54,22 +51,23 @@ ggplot(diabetes_clean, aes(glyhb_star)) + geom_histogram()
 
 ```
 
-8.
+## 8.
+The larger the frame, the higher the glyhb_star mean. Buckingham has a slightly higher glyhb_star average than Louisa. Men are more likely to have a higher glyhb_star than women.
 ``` {r}
 diabetes_clean %>% group_by(frame) %>% summarise(mean.glyhb = mean(glyhb_star))
+diabetes_clean %>% group_by(location) %>% summarise(mean.glyhb = mean(glyhb_star))
+diabetes_clean %>% group_by(gender) %>% summarise(mean.glyhb = mean(glyhb_star))
 ```
 
-9.
+
+
+## 10.
 ``` {r}
-
+ diabetes_clean %>% group_by(frame,location) %>% summarise (mean.glyhb_star= mean(glyhb_star)) %>% ggplot(aes(x = frame, y = mean.glyhb_star, color = location)) + geom_point() + ggtitle("Average glyhb_star by Frame")
 ```
 
-10.
-``` {r}
- diabetes_clean %>% group_by(frame,location) %>% summarise (mean.glyhb_star= mean(glyhb_star)) %>% ggplot(aes(x = frame, y = mean.glyhb_star, color = location)) + geom_point()
-```
-
-11.
+## 11.
+The only trend that is relatively clear from these graphs is that as ratio increases, glyhb_star will also increase.
 ``` {r}
 ggplot(diabetes_clean, aes(ratio, glyhb_star, color = gender)) + geom_point()
 ggplot(diabetes_clean, aes(bp.1s, glyhb_star, color = gender)) + geom_point()
@@ -77,29 +75,32 @@ ggplot(diabetes_clean, aes(age, glyhb_star, color = gender)) + geom_point()
 ggplot(diabetes_clean, aes(weight, glyhb_star, color = gender)) + geom_point()
 ```
 
-12.
+## 12.
 ``` {r}
 ggplot(diabetes_clean,aes(y=hip,x=waist,alpha=0.5)) + geom_point() + facet_wrap(~frame) 
 ```
 
-13.
+## 13.
 The gather function takes data that is across multiple columns and condenses it into one column in the form of key value pairs. The spread function takes single column data and expands it over multiple columns based on the key value pairs of the first column.
 
-14.
+## 14.
 They are complementary function in the sense that you can gather the data and then spread it to get back the original data and vice versa.
 
-15.
+## 15.
 The high F-Statistic tells us that fitting a model is better than no model. The adjusted R-squared is somewhat low but it tells us that roughly half of the variance in glyhb_star can be explained by the chosen variables. Frame appears to be a poor predictor for glyhb_star due to the high p-values so they could be discarded in a future model. Ratio appears to have to the strongest correlation with glyhb_star due to its low p-value and a higher regression coefficient than other variables. Overall a linear model is a decent approach in this case, but more models would have to be explored to see if linear is the best choice.
 ``` {r}
 fit = lm(glyhb_star ~stab.glu + age + waist + ratio+ factor(frame),data=diabetes_clean)
  summary(fit)
 ```
-16.
+## 16.
 The coefficients for stab.glu, age, and waist are all similar and relatively low values meaning as they increase, glyhb_star only slightly increases. Ratio has the largest coeffiecient changes in ratio lead to largest changes in glyhb_star. The different frames have large coefficient values but since they are factors it essentially means that the intercept changes for the given frame.
 
-17.
+## 17.
+The output below is the predicted value from our model.
 ```{r}
-new_diabetes = data.frame(wt=c(90, 35, 30, 5.1, 'small'))
+new_diabetes = data.frame(90, 35, 30, 5.1, 'small')
+names(new_diabetes) = c("stab.glu", "age", "waist", "ratio", "frame")
+predict(fit, new_diabetes)
 ```
 
 
