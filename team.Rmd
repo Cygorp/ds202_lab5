@@ -66,30 +66,43 @@ diabetes_clean %>% group_by(frame) %>% summarise(mean.glyhb = mean(glyhb_star))
 
 10.
 ``` {r}
-
+ diabetes_clean %>% group_by(frame,location) %>% summarise (mean.glyhb_star= mean(glyhb_star)) %>% ggplot(aes(x = frame, y = mean.glyhb_star, color = location)) + geom_point()
 ```
 
 11.
 ``` {r}
-
+ggplot(diabetes_clean, aes(ratio, glyhb_star, color = gender)) + geom_point()
+ggplot(diabetes_clean, aes(bp.1s, glyhb_star, color = gender)) + geom_point()
+ggplot(diabetes_clean, aes(age, glyhb_star, color = gender)) + geom_point()
+ggplot(diabetes_clean, aes(weight, glyhb_star, color = gender)) + geom_point()
 ```
 
 12.
 ``` {r}
-
+ggplot(diabetes_clean,aes(y=hip,x=waist,alpha=0.5)) + geom_point() + facet_wrap(~frame) 
 ```
 
 13.
-``` {r}
-
-```
+The gather function takes data that is across multiple columns and condenses it into one column in the form of key value pairs. The spread function takes single column data and expands it over multiple columns based on the key value pairs of the first column.
 
 14.
-``` {r}
-
-```
+They are complementary function in the sense that you can gather the data and then spread it to get back the original data and vice versa.
 
 15.
+The high F-Statistic tells us that fitting a model is better than no model. The adjusted R-squared is somewhat low but it tells us that roughly half of the variance in glyhb_star can be explained by the chosen variables. Frame appears to be a poor predictor for glyhb_star due to the high p-values so they could be discarded in a future model. Ratio appears to have to the strongest correlation with glyhb_star due to its low p-value and a higher regression coefficient than other variables. Overall a linear model is a decent approach in this case, but more models would have to be explored to see if linear is the best choice.
 ``` {r}
-
+fit = lm(glyhb_star ~stab.glu + age + waist + ratio+ factor(frame),data=diabetes_clean)
+ summary(fit)
 ```
+16.
+The coefficients for stab.glu, age, and waist are all similar and relatively low values meaning as they increase, glyhb_star only slightly increases. Ratio has the largest coeffiecient changes in ratio lead to largest changes in glyhb_star. The different frames have large coefficient values but since they are factors it essentially means that the intercept changes for the given frame.
+
+17.
+```{r}
+new_diabetes = data.frame(wt=c(90, 35, 30, 5.1, 'small'))
+```
+
+
+
+
+
