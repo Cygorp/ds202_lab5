@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+Github Repository: https://github.com/Cygorp/ds202_lab5
 
 ## 1. 
 ``` {r}
@@ -15,10 +16,12 @@ diabetes<-read.table('diabetes.txt',header=TRUE)
 head(diabetes)
 ```
 ## 2.
-``` {r}
+``` {r, results = 'hide'}
 library(tidyverse)
 diabetes[diabetes == ''] = NA
 droplevels(diabetes)
+```
+```{r}
 head(diabetes)
 str(diabetes)
 ```
@@ -26,6 +29,7 @@ str(diabetes)
 ``` {r}
 diabetes_reduced <- select(diabetes, -c(id, bp.2s, bp.2d))
 ```
+
 ## 4.
 ```{r}
 index.na1=which(apply(is.na(diabetes_reduced), 1, any) == TRUE)
@@ -40,19 +44,14 @@ index.na2
 ```
 To see if all rows that have missing values were dropped we just have to run the given line of code again. If there are no results then there are no missing values. 
 
-<<<<<<< HEAD
 ## 6.
 Taking the log value of glyhb would make the data less right-skewed and more symmetric. A potential downside is information about the drastic differences between some peoples glyhb values.
-=======
-6.
-Taking the log value of glyhb would make the data less right-skewed and more symmetric.
->>>>>>> 4e799ad6f94ed44dc5f7fcfd5601e3b41f0475bc
 
 ## 7.
 ``` {r}
-ggplot(diabetes_clean, aes(glyhb)) + geom_histogram()
+ggplot(diabetes_clean, aes(glyhb)) + geom_histogram() + ggtitle("Histogram of glyhb")
 diabetes_clean$glyhb_star = log(diabetes_clean$glyhb)
-ggplot(diabetes_clean, aes(glyhb_star)) + geom_histogram()
+ggplot(diabetes_clean, aes(glyhb_star)) + geom_histogram() + ggtitle("Histogram of Log(glyhb)")
 
 ```
 
@@ -64,13 +63,7 @@ diabetes_clean %>% group_by(location) %>% summarise(mean.glyhb = mean(glyhb_star
 diabetes_clean %>% group_by(gender) %>% summarise(mean.glyhb = mean(glyhb_star))
 ```
 
-<<<<<<< HEAD
-
-
 ## 10.
-=======
-10.
->>>>>>> 4e799ad6f94ed44dc5f7fcfd5601e3b41f0475bc
 ``` {r}
  diabetes_clean %>% group_by(frame,location) %>% summarise (mean.glyhb_star= mean(glyhb_star)) %>% ggplot(aes(x = frame, y = mean.glyhb_star, color = location)) + geom_point() + ggtitle("Average glyhb_star by Frame")
 ```
@@ -78,15 +71,17 @@ diabetes_clean %>% group_by(gender) %>% summarise(mean.glyhb = mean(glyhb_star))
 ## 11.
 The only trend that is relatively clear from these graphs is that as ratio increases, glyhb_star will also increase.
 ``` {r}
-ggplot(diabetes_clean, aes(ratio, glyhb_star, color = gender)) + geom_point()
-ggplot(diabetes_clean, aes(bp.1s, glyhb_star, color = gender)) + geom_point()
-ggplot(diabetes_clean, aes(age, glyhb_star, color = gender)) + geom_point()
-ggplot(diabetes_clean, aes(weight, glyhb_star, color = gender)) + geom_point()
+ggplot(diabetes_clean, aes(ratio, glyhb_star, color = gender)) + geom_point() + ggtitle("Glyhb_star vs Ratio")
+ggplot(diabetes_clean, aes(bp.1s, glyhb_star, color = gender)) + geom_point() + ggtitle("Glyhb_star vs Bp.1s")
+ggplot(diabetes_clean, aes(age, glyhb_star, color = gender)) + geom_point() + ggtitle("Glyhb_star vs Age")
+ggplot(diabetes_clean, aes(weight, glyhb_star, color = gender)) + geom_point() + ggtitle("Glyhb_star vs Weight")
 ```
 
 ## 12.
+In order to see patterns in the data better, it may be helpful to facet by gender as well. Another way to visualize the data is with bar graphs.
 ``` {r}
-ggplot(diabetes_clean,aes(y=hip,x=waist,alpha=0.5)) + geom_point() + facet_wrap(~frame) 
+ggplot(diabetes_clean,aes(y=hip,x=waist, alpha=.5)) + geom_point() + facet_wrap(gender~frame) + ggtitle("Hip versus Waist seperated by Gender and Frame")
+ggplot(diabetes_clean,aes(y=hip,x=waist)) + geom_col() + facet_wrap(gender~frame) + ggtitle("Hip versus Waist seperated by Gender and Frame")
 ```
 
 ## 13.
